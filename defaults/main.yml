@@ -4,3 +4,5 @@ terraform_bin_dir: "{{ terraform_home }}/bin"
 terraform_version: 0.6.11
 terraform_pkg: "terraform_{{ terraform_version }}_linux_amd64.zip"
 terraform_pkg_url: "https://releases.hashicorp.com/terraform/{{ terraform_version }}/{{ terraform_pkg }}"
+terraform_checksum_file: "terraform_{{ terraform_version }}_SHA256SUMS"
+terraform_checksum_file_url: "https://releases.hashicorp.com/terraform/{{ terraform_version }}/{{ terraform_checksum_file }}"
