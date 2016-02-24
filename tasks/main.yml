@@ -1,0 +1,15 @@
+---
+
+- name: Install unzip
+  apt: name=unzip state=present
+
+- name: Create terraform bin directory
+  file: path={{ terraform_bin_dir }} recurse=yes state=directory
+
+- name: Download terraform package
+  get_url: url={{ terraform_pkg_url }} dest={{ terraform_home }}
+
+- name: Unzip terraform package
+  unarchive: src={{ terraform_home }}/{{ terraform_pkg }} dest={{ terraform_bin_dir }} copy=no
+
+#- name: Update PATH variable
