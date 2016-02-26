@@ -11,3 +11,7 @@ describe file("#{terraform_bin_dir}/terraform") do
   it { should be_file }
   it { should be_mode 755 }
 end
+
+describe command("#{terraform_bin_dir}/terraform version") do
+  its(:stdout) { should match %r(Terraform v.*) }
+end
