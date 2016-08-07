@@ -5,7 +5,7 @@
   when: ansible_os_family|lower == 'debian'
 
 - name: Install unzip | RedHat
-  apt: name=unzip state=present
+  yum: name=unzip state=present
   when: ansible_os_family|lower == 'redhat'
 
 - name: Create terraform bin directory
