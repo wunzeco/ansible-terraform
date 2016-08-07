@@ -1,22 +1,37 @@
 ---
 
-- name: Install unzip
+- name: Install unzip | Debian
   apt: name=unzip state=present
+  when: ansible_os_family|lower == 'debian'
+
+- name: Install unzip | RedHat
+  apt: name=unzip state=present
+  when: ansible_os_family|lower == 'redhat'
 
 - name: Create terraform bin directory
   file: path={{ terraform_bin_dir }} recurse=yes state=directory
 
 - name: Get terraform package checksum file
-  get_url: url={{ terraform_checksum_file_url }} dest={{ terraform_home }}
+  get_url: 
+    url: "{{ terraform_checksum_file_url }}"
+    dest: "{{ terraform_home }}"
 
 - name: Get checksum of terraform package
-  shell: grep {{ terraform_pkg }} {{ terraform_home }}/{{ terraform_checksum_file }}
+  shell: >
+      grep {{ terraform_pkg }} {{ terraform_home }}/{{ terraform_checksum_file }}
   register: chksum
 
 - name: Download terraform package
-  get_url: url={{ terraform_pkg_url }} dest={{ terraform_home }}/{{ terraform_pkg }} checksum="sha256:{{ chksum.stdout.split(' ')|first }}"
+  get_url: 
+    url: "{{ terraform_pkg_url }}"
+    dest: "{{ terraform_home }}/{{ terraform_pkg }}"
+    checksum: "sha256:{{ chksum.stdout.split(' ')|first }}"
 
 - name: Unzip terraform package
-  unarchive: src={{ terraform_home }}/{{ terraform_pkg }} dest={{ terraform_bin_dir }} copy=no
+  unarchive:
+    src: "{{ terraform_home }}/{{ terraform_pkg }}"
+    dest: "{{ terraform_bin_dir }}"
+    mode: 0755
+    copy: no
 
 #- name: Update PATH variable
