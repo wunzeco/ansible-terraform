@@ -14,6 +14,15 @@ This role installs and configures terraform
 ```
 
 
+## Testing
+
+To run this role's integration tests
+
+```
+kitchen test
+```
+
+
 ## Dependencies
 
 none
